@@ -1,7 +1,7 @@
 const Player = require('../Models/player');
 
 exports.run = async (client, msg, args, db) => {
-  let docRef = db.collection('Players').doc(msg.author.username);
+  let docRef = db.collection('Players').doc(msg.author.id);
   let getDoc = await docRef.get();
   console.log('Document data:', getDoc.data());
   const data = getDoc.data();

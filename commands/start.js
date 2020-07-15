@@ -1,7 +1,21 @@
 const Player = require('../Models/player.js');
-exports.run = async (client, msg, args, db, dialog) => {
+
+exports.run = async (client, msg, args, db, fs) => {
+  // Import Necessary Json
+  var dialog;
+  fs.readFile('./Dialog/dialog.json', 'utf8', (err, data) => {
+    if (err) throw err;
+    dialog = JSON.parse(data);
+  });
+
+  var weapons;
+  fs.readFile('./Data/weapons.json', 'utf8', (err, data) => {
+    if (err) throw err;
+    weapons = JSON.parse(data);
+  });
+
   // Start Registration
-  let docRef = db.collection('Players').doc(msg.author.username);
+  let docRef = db.collection('Players').doc(msg.author.id);
   const getDoc = await docRef.get();
   const data = getDoc.data();
   if (!args || args.length < 1) {
@@ -430,6 +444,8 @@ exports.run = async (client, msg, args, db, dialog) => {
       player.Locale.CurrentNation = 'The Walderlund';
       player.Locale.CurrentLocale = 'Derdach';
 
+      // Give player a weapon
+
       // Post to DB
       // console.log(player);
       // var role = msg.guild.roles.fetch('708356468038041662');
@@ -440,7 +456,7 @@ exports.run = async (client, msg, args, db, dialog) => {
 
       let setDoc = db
         .collection('Players')
-        .doc(msg.author.username)
+        .doc(msg.author.id)
         .set(Object.assign({}, player));
 
       await msg.reply(

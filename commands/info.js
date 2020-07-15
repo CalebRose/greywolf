@@ -2,9 +2,8 @@ exports.run = async (client, msg, args, db) => {
   //   if (!args || args.length < 1)
   //     return msg.reply('you must provide a command name to reload.');
   //   const commandName = args[0];
-  let docRef = db.collection('Players').doc(msg.author.username);
+  let docRef = db.collection('Players').doc(msg.author.id);
   let getDoc = await docRef.get();
-  console.log('Document data:', getDoc.data());
   const data = getDoc.data();
   try {
     if (!args || args.length < 1) {
@@ -79,17 +78,29 @@ exports.run = async (client, msg, args, db) => {
         args[0].toLowerCase() === 'weapon' ||
         args[0].toLowerCase() === 'w'
       ) {
+        let fields = [
+          {
+            name: `**Weapon Type**: ${data.Weapon.WeaponType}`,
+            value: `**Attack Type**: ${data.Weapon.AttackType}\n**Originated From**: ${data.Weapon.WeaponOrigin}`,
+          },
+        ];
+        if (data.Weapon.WeaponType !== 'Melee Weapon') {
+          fields.push({
+            name: `Weapon Stats`,
+            value: `**Rating**: ${data.Weapon.WeaponRating}\n**Range**: ${data.Weapon.WeaponRange}\n**Accuracy**: ${data.Weapon.WeaponAccuracy}\n**Fire Rate**: ${data.Weapon.FireRate}\n**Cartridge Size**: ${data.Weapon.WeaponCartridge}\n**Reload Time**: ${data.Weapon.WeaponReloadTime}`,
+          });
+        } else {
+          fields.push({
+            name: `Weapon Stats`,
+            value: `**Rating**: ${data.Weapon.WeaponRating}\n**Accuracy**: ${data.Weapon.WeaponAccuracy}\n**Attack Speed**: ${data.Weapon.FireRate}\n**Weapon Stamina**: ${data.Weapon.WeaponCartridge}\n**Recovery Rate**: ${data.Weapon.WeaponReloadTime}`,
+          });
+        }
         msg.channel.send({
           embed: {
             color: 3447003,
             title: `${data.Name}'s Current Weapon`,
-            description: ``,
-            fields: [
-              {
-                name: '**To be added soon**',
-                value: ``,
-              },
-            ],
+            description: `**${data.Weapon.Name}**\n*${data.Weapon.WeaponDescription}*`,
+            fields: fields,
             footer: {
               icon_url: client.user.avatarURL,
               text: '© Rubicon Innovations',
