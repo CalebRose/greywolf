@@ -145,10 +145,10 @@ class Player {
       CurrentLocale: data.Locale.CurrentLocale || '',
     };
     this.Action = {
-      TravelPoints: data.Action.TravelPoints || 0,
-      ActionPoints: data.Action.ActionPoints || 0,
-      CurrentTravelPoints: data.Action.CurrentTravelPoints || 0,
-      CurrentActionPoints: data.Action.CurrentActionPoints || 0,
+      TravelPoints: data.Action.TravelPoints || 1,
+      ActionPoints: data.Action.ActionPoints || 2,
+      CurrentTravelPoints: data.Action.CurrentTravelPoints || 1,
+      CurrentActionPoints: data.Action.CurrentActionPoints || 2,
     };
     this.Registration = {
       isComplete: data.Registration.isComplete || false,
@@ -290,6 +290,139 @@ class Player {
       }
     }
     return max.Name;
+  }
+
+  getStarterWeapon(json) {
+    for (let i = 0; i < json[Player.OriginNation].length; i++) {
+      switch (Player.OriginNation) {
+        case 'The Walderlund' || 'Halvania' || 'Friedlerin':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === 'Rauber 4e32') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'The Gol Republic':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === 'Rauber 4e32') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'Bregan':
+          if (Player.Profession === 'Conscript') {
+            if (
+              json[Player.OriginNation][i].Name === '4e38 Stanley-Onfielder'
+            ) {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (
+              json[Player.OriginNation][i].Name === "Bregian Officer's Sword"
+            ) {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === '4e42 Weister') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'Rubinia':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === 'Rauber 4e32') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'Nordank':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === 'Riffel 4e27') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === 'Nordish Rapier') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === 'Revolver 4e') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'The Volka':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === 'Vintovka Naganta') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === '') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === 'Pistolet Impersky 4e6') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'Atalia':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === 'Pistola Revelli') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        case 'Escagon':
+          if (Player.Profession === 'Conscript') {
+            if (json[Player.OriginNation][i].Name === '') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else if (Player.Profession === 'Vagrant') {
+            if (json[Player.OriginNation][i].Name === '') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          } else {
+            if (json[Player.OriginNation][i].Name === '') {
+              Player.Weapon = json[Player.OriginNation][i];
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    }
   }
 }
 

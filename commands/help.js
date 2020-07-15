@@ -42,7 +42,7 @@ exports.run = (client, msg, args) => {
         },
       },
     });
-  } else if (args.length === 1) {
+  } else {
     if (args[0] === 'start') {
       msg.channel.send({
         embed: {
@@ -122,38 +122,74 @@ exports.run = (client, msg, args) => {
         },
       });
     } else if (args[0] === 'info') {
-      msg.channel.send({
-        embed: {
-          color: 3447003,
-          title: 'Info Guide',
-          description: 'A guide for preparing for missions',
-          fields: [
-            {
-              name: '!info',
-              value:
-                "I will provide you with general information on yourself. Who you are, where you're from, and your current condition",
+      if (args[1] !== undefined) {
+        if (args[1] === 'w' || args[1] === 'weapon') {
+          msg.channel.send({
+            embed: {
+              color: 3447003,
+              title: 'Info-Weapon Guide',
+              description: 'Information regarding the weapon window',
+              fields: [
+                {
+                  name: '!info weapon (w)',
+                  value: 'The command to use to view your current weapon info',
+                },
+                {
+                  name: 'Weapon Typing',
+                  value:
+                    'Weapon Type: The type of your current weapon\nAttackType: The attack type of your weapon\nOriginated From: Where your weapon was manufactured or crafted.',
+                },
+                {
+                  name: 'Ranged Weapon Stats',
+                  value:
+                    'Rating: The strength of your weapon\nAccuracy: The accuracy of your current weapon.\nFire Rate: The firing rate of your weapon. Most weapons can fire only one round at a time.\nCartridge Size: How much ammunition your weapon can hold at a time before reloading.\nReload Time: The amount of turns it takes to reload your weapon.',
+                },
+                {
+                  name: 'Melee Weapon Stats',
+                  value:
+                    'Rating: The strength of your weapon\nAccuracy: The accuracy of your current weapon.\nAttack Speed: The strike rate of your weapon under your curent stamina.\nWeapon Stamina: How many strikes your character can do until it needs to take a breath.\nRecovery Rate: The amount of turns it takes to rejuvenate your weapon stamina.',
+                },
+              ],
+              footer: {
+                icon_url: client.user.avatarURL,
+                text: '© Rubicon Innovations',
+              },
             },
-            {
-              name: '!info Weapon',
-              value:
-                'Information on your current weapon, sir. This section is not ready',
+          });
+        }
+      } else {
+        msg.channel.send({
+          embed: {
+            color: 3447003,
+            title: 'Info Guide',
+            description: 'A guide for preparing for missions',
+            fields: [
+              {
+                name: '!info',
+                value:
+                  "I will provide you with general information on yourself. Who you are, where you're from, and your current condition",
+              },
+              {
+                name: '!info Weapon',
+                value: 'Information on your current weapon, sir.',
+              },
+              {
+                name: '!info skills',
+                value: 'A list of all skills you are proficient at.',
+              },
+              {
+                name: '!info Feats',
+                value:
+                  "Your feats, sir. Unfortunately this section doesn't appear to be quite ready. Please be patient.",
+              },
+            ],
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: '© Rubicon Innovations',
             },
-            {
-              name: '!info skills',
-              value: 'A list of all skills you are proficient at.',
-            },
-            {
-              name: '!info Feats',
-              value:
-                "Your feats, sir. Unfortunately this section doesn't appear to be quite ready. Please be patient.",
-            },
-          ],
-          footer: {
-            icon_url: client.user.avatarURL,
-            text: '© Rubicon Innovations',
           },
-        },
-      });
+        });
+      }
     } else if (args[0] === 'stats') {
       msg.channel.send({
         embed: {

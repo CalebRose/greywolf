@@ -33,11 +33,6 @@ client.once('ready', () => {
 // });
 
 // client.commands = new Enmap();
-var dialog;
-fs.readFile('./Dialog/dialog.json', 'utf8', (err, data) => {
-  if (err) throw err;
-  dialog = JSON.parse(data);
-});
 
 fs.readdir('./commands', (err, files) => {
   if (err) return console.error(err);
@@ -61,7 +56,7 @@ client.on('message', (msg) => {
   const command = args.shift().toLowerCase();
   const cmd = client.commands.get(command);
   if (!cmd) return;
-  cmd.run(client, msg, args, db, dialog);
+  cmd.run(client, msg, args, db, fs);
 });
 
 client.on('error', (e) => console.log(e));
