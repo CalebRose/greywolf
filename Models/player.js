@@ -189,6 +189,12 @@ class Player {
       ShotsMade: data.Stats.ShotsMade || 0,
       TrainingActions: data.Stats.TrainingActions || 0,
     };
+    this.Currencies = data.Currencies
+      ? {
+          WaldishMarks: (data && data.Currencies.WaldishMarks) || 0,
+          GolicGols: (data && data.Currencies.GolicGols) || 0,
+        }
+      : { WaldishMarks: 0, GolicGols: 0 };
     this.DateCreated = data.DateCreated || Date.now();
   }
   incrementAttribute(attr) {
@@ -247,6 +253,11 @@ class Player {
     }
     return this;
   }
+  setLocale(loc) {
+    this.Locale.CurrentLocale = loc.Name;
+    this.Locale.CurrentNation = loc.Country;
+  }
+
   setLanguage(nation) {
     // For the beginning of the game only
     this.Proficiencies.Waldish.Level = 3;
@@ -424,6 +435,38 @@ class Player {
       }
     }
   }
+
+  checkForPurchase(currency, cost) {
+    if (currency.toLowerCase() === 'marks') {
+      if (cost > this.Currencies.WaldishMarks) {
+        return false;
+      }
+      return true;
+    } else if (currency.toLowerCase() === 'gols') {
+      if (cost > this.Currencies.GolicGols) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  payForItem(currency, cost) {
+    if (currency.toLowerCase() === 'marks') {
+      this.Currencies.WaldishMarks -= cost;
+    } else if (currency.toLowerCase() === 'gols') {
+      this.Currencies.GolicGols -= cost;
+    }
+  }
+
+  receiveMoney(currency, amount) {
+    if (currency.toLowerCase() === 'marks') {
+      this.Currencies.WaldishMarks += amount;
+    } else if (currency.toLowerCase() === 'gols') {
+      this.Currencies.GolicGols += amount;
+    }
+  }
+
+  receiveItem(item) {}
 }
 
 module.exports = Player;
