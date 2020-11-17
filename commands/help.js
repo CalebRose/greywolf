@@ -170,17 +170,21 @@ exports.run = (client, msg, args) => {
                   "I will provide you with general information on yourself. Who you are, where you're from, and your current condition",
               },
               {
-                name: '!info Weapon',
+                name: '!info *W*eapon',
                 value: 'Information on your current weapon, sir.',
               },
               {
-                name: '!info skills',
+                name: '!info *s*kills',
                 value: 'A list of all skills you are proficient at.',
               },
               {
-                name: '!info Feats',
+                name: '!info *F*eats',
                 value:
                   "Your feats, sir. Unfortunately this section doesn't appear to be quite ready. Please be patient.",
+              },
+              {
+                name: '!info *inv*entory',
+                value: 'View your current inventory here.',
               },
             ],
             footer: {

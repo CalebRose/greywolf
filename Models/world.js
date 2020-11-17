@@ -1,15 +1,15 @@
 class World {
   constructor(data) {
-    this.CurrentLeader = data.CurrentLeader;
-    this.HQLocale = data.HQLocale;
-    this.Country = data.Country;
+    this.CurrentLeader = data.CurrentLeader || null;
+    this.HQLocale = data.HQLocale || null;
+    this.Country = data.Country || null;
     this.Time = {
-      Day: data.Time.Day,
-      DayText: data.Time.DayText,
-      Month: data.Time.Month,
-      MonthText: data.Time.MonthText,
-      Year: data.Time.Year,
-      Era: data.Time.Era,
+      Day: data.Time.Day || null,
+      DayText: data.Time.DayText || null,
+      Month: data.Time.Month || null,
+      MonthText: data.Time.MonthText || null,
+      Year: data.Time.Year || null,
+      Era: data.Time.Era || null,
     };
     this.MonthData = [
       'Lunvare',
@@ -27,20 +27,21 @@ class World {
       'Duskare',
     ];
     this.DayData = [
-      'Nocta', // 7th Day
-      'Risa', // 1st Day of the Week
-      'Dobra',
-      'Tripta',
-      'Mida',
-      'Penta',
-      'Seta',
+      'Noctan', // 7th Day
+      'Risan', // 1st Day of the Week
+      'Dobran',
+      'Triptan',
+      'Midan',
+      'Pentan',
+      'Setan',
     ];
   }
   IncrementCalendar() {
     if (this.Time.Day === 28) {
       if (this.Time.Month === 13) {
-        this.Time.Day = 0;
-        this.Time.Month = 0;
+        this.Time.Day = 'Zero';
+        this.Time.DayText = 'Zero Day';
+        this.Time.Month = 'Zero';
         this.Time.MonthText = 'Zero Day';
         this.Time.Year++;
       } else {
@@ -48,13 +49,18 @@ class World {
         this.Time.MonthText = this.MonthData[this.Time.Month];
         this.Time.Month++;
       }
-    } else if (this.Time.Day === 0) {
-      this.Time.MonthText = this.MonthData[this.Time.Month];
+    } else if (this.Time.Day === 'Zero') {
+      this.Time.MonthText = this.MonthData[0];
       this.Time.Month = 1;
-      this.Time.Day++;
+      this.Time.Day = 1;
     } else {
       this.Time.Day++;
     }
-    this.Time.DayText = this.DayData[this.Time.Day % 7];
+    console.log('THIS DAY', this.Time.Day);
+    if (this.Time.Day !== 'Zero') {
+      this.Time.DayText = this.DayData[this.Time.Day % 7];
+    }
   }
 }
+
+module.exports = World;
