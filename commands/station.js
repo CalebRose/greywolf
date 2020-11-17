@@ -1,6 +1,7 @@
 // Models
 const Player = require('../Models/player');
 const Location = require('../Models/location');
+const utility = require('../Data/utility');
 
 exports.run = async (client, msg, args, db, fs) => {
   // JSON Data
@@ -122,7 +123,9 @@ exports.run = async (client, msg, args, db, fs) => {
 
       req = locationInfo.getStationDestination(req);
 
-      msg.channel.send(`Are you sure you want to travel to ${req.Name}?`);
+      msg.channel.send(
+        `Are you sure you want to travel to ${req.Name}` + utility.ConfirmText
+      );
 
       const confirmationPrompt = await msg.channel.awaitMessages(
         yesOrNoFilter,

@@ -3,6 +3,7 @@ const Player = require('../Models/player');
 const Location = require('../Models/location');
 const Landmark = require('../Models/landmark');
 const World = require('../Models/world');
+const utility = require('../Data/utility');
 
 const {
   ExchangeOption,
@@ -23,6 +24,12 @@ exports.run = async (client, msg, args, db, fs) => {
   fs.readFile('./Data/world.json', 'utf8', (err, data) => {
     if (err) throw err;
     worldData = JSON.parse(data);
+  });
+
+  var itemData;
+  fs.readFile('./Data/items.json', 'utf8', (err, data) => {
+    if (err) throw err;
+    itemData = JSON.parse(data);
   });
   // Firebase
   try {
@@ -151,10 +158,11 @@ exports.run = async (client, msg, args, db, fs) => {
         let prevOptions = [pastOptions];
         let dataUpdated = false;
         while (true) {
-          //
+          // If exiting
           if (options.IsExit) embed.embed.fields = [];
           msg.channel.send(embed);
           if (options.IsExit) break;
+
           const prompt = await msg.channel.awaitMessages(
             (m) => promptFilter(m, options),
             {
@@ -219,9 +227,10 @@ exports.run = async (client, msg, args, db, fs) => {
             options = pastOptions;
             //
           } else if (options.OptionType === 'Purchase') {
-            options = new ExchangeOption(options);
             // Provide Dialogue
-            msg.channel.send(options.Dialogue);
+            msg.channel.send(
+              options.Dialogue + options.Item + utility.ConfirmText
+            );
             let confirm = await msg.channel.awaitMessages(confirmationFilter, {
               time: 60000,
               max: 1,
@@ -229,21 +238,41 @@ exports.run = async (client, msg, args, db, fs) => {
 
             let confirmed = isConfirmed(confirm.first().content);
             if (confirmed) {
+              // Get item
+              var item = itemData[options.Region][options.Item];
               let canPurchase = player.checkForPurchase(
                 locationInfo.Currency,
                 options.Cost
               );
-              if (canPurchase) {
+              // Check inventory space
+              let hasSpace = player.checkInventorySpace();
+
+              //
+              if (canPurchase && hasSpace) {
                 player.payForItem(locationInfo.Currency, options.Cost);
+                // Add item to inventory
+                item.Id = Math.floor(Math.random() * 999999);
+                player.receiveItem(item);
                 msg.channel.send(options.Options[0].PurchaseDialogue);
                 dataUpdated = true;
                 embed.embed.description = '';
-                if (options.return) options = landmark;
+                if (options.return) options = pastOptions;
               } else {
-                msg.channel.send(
-                  `${options.Options[0].UnableToPay}\n${landmark.ExitText}`
-                );
-                break;
+                if (!canPurchase) {
+                  msg.channel.send(
+                    `${options.Options[0].UnableToPay}\n${landmark.ExitText}`
+                  );
+                  break;
+                } else if (!hasSpace) {
+                  msg.channel.send(
+                    `It appears that you do not have enough space in your inventory for ${options.Item}.\nI suggest making room in your bags or acquiring more bags.`
+                  );
+                  if (options.Options[1].return) {
+                    options = pastOptions;
+                  } else {
+                    break;
+                  }
+                }
               }
             } else {
               msg.channel.send(options.Options[1].Dialogue);
@@ -260,6 +289,7 @@ exports.run = async (client, msg, args, db, fs) => {
             // resort to past options if necessary
           } else if (options.OptionType === 'Sell') {
             // Provide Dialogue
+            // Provide player inventory. Select Item
             // Calculate cost
             // Make exchange
             // Ask if the player wants to do anything else?

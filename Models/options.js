@@ -2,6 +2,7 @@ class Options {
   // Most basic option. Provides dialogue, nothing more.
   constructor(data) {
     this.Key = data.Key || null;
+    this.Availability = data.Availability || ['All'];
     this.OptionType = data.OptionType || null;
     this.Value = data.Value || null;
     this.Options = data.Options || [];
@@ -48,7 +49,8 @@ class ExchangeOption extends Options {
     //
     super(data);
     this.isBuying = data.isBuying || null;
-    this.Items = data.Items || [];
+    this.Item = data.Item || '';
+    this.SpendMoney = data.SpendMoney || false;
     this.Cost = data.Cost || null;
   }
 }

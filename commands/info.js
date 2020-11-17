@@ -35,6 +35,10 @@ exports.run = async (client, msg, args, db) => {
               name: 'Condition',
               value: `${data.Condition}`,
             },
+            {
+              name: 'Currencies',
+              value: `${data.Currencies.WaldishMarks} Marks\n ${data.Currencies.GolicGols} Gols`,
+            },
           ],
           footer: {
             icon_url: client.user.avatarURL,
@@ -104,6 +108,38 @@ exports.run = async (client, msg, args, db) => {
             footer: {
               icon_url: client.user.avatarURL,
               text: '© Rubicon Innovations',
+            },
+          },
+        });
+      } else if (
+        args[0].toLowerCase() === 'inventory' ||
+        args[0].toLowerCase() === 'inv'
+      ) {
+        let fields = data.Inventory.map((x, key) => {
+          return {
+            name: `${key + 1}: ${x.Name}: ${x.ItemType}`,
+            value: `${x.Description}`,
+          };
+        });
+        if (fields.length === 0) {
+          fields = {
+            name: `An empty bag.`,
+            value: `It appears that you have nothing in your inventory.`,
+          };
+        }
+        msg.channel.send({
+          embed: {
+            color: 3447003,
+            title: `${data.Name}'s Inventory`,
+            description: `Total Inventory Space: ${
+              data.InventoryLimit
+            } | Used Space: ${data.Inventory.length} | Space Available: ${
+              data.InventoryLimit - data.Inventory.length
+            }`,
+            fields: fields,
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: '@ Rubicon Innovations',
             },
           },
         });
