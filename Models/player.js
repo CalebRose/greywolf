@@ -732,7 +732,6 @@ class Player {
   }
 
   payForItem(currency, cost) {
-    console.log(cost);
     if (currency.toLowerCase() === 'marks') {
       this.Currencies.WaldishMarks -= parseInt(cost);
     } else if (currency.toLowerCase() === 'gols') {
@@ -795,9 +794,13 @@ class Player {
     }
 
     if (remove) {
-      this.Inventory = this.Inventory.filter((x) => x.Id !== item.Id);
+      this.Inventory = this.removeItem(item);
     }
     return this, message;
+  }
+
+  removeItem(item) {
+    return this.Inventory.filter((x) => x.Id !== item.Id);
   }
 }
 

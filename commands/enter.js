@@ -139,9 +139,11 @@ exports.run = async (client, msg, args, db, fs) => {
           //
           for (let i = 0; i < opt.length; i++) {
             if (isNaN(mes)) {
-              if (opt[i].Value.toLowerCase() === mes.toLowerCase()) {
-                pass = true;
-                break;
+              if (opt[i].Value !== undefined) {
+                if (opt[i].Value.toLowerCase() === mes.toLowerCase()) {
+                  pass = true;
+                  break;
+                }
               }
             } else {
               if (opt[i].Key === mes) {
@@ -153,15 +155,56 @@ exports.run = async (client, msg, args, db, fs) => {
           return !pass && m.author.id === msg.author.id;
         };
 
+        var dialogueFunction = (
+          options,
+          prevOptions,
+          embed,
+          landmark,
+          name,
+          desc,
+          fields
+        ) => {
+          if (options.FurtherDialogue) {
+            fields = populateOptions(options.EmbedName, options.Options);
+            embed.embed.fields = fields;
+          }
+          desc = options.Dialogue;
+          embed.embed.title = '';
+          embed.embed.description = desc;
+
+          if (options.return || options.returnToSub) {
+            embed.embed.title = title;
+            if (options.return && !options.returnToSub) {
+              options = landmark;
+              fields = populateOptions(name, options.Options);
+              prevOptions = [];
+            } else if (!options.return && options.returnToSub) {
+              let returnDialogue = options.ReturnDialogue;
+
+              options = prevOptions.pop();
+              fields = populateOptions(returnDialogue, options.Options);
+            }
+            embed.embed.fields = fields;
+          }
+          return options, prevOptions, embed, landmark, name, desc, fields;
+        };
+
+        const savePlayerData = (player) => {
+          db.collection('Players')
+            .doc(msg.author.id)
+            .set(Object.assign({}, player));
+        };
+
         let options = landmark;
         let pastOptions = options;
         let prevOptions = [pastOptions];
-        let dataUpdated = false;
         while (true) {
           // If exiting
           if (options.IsExit) embed.embed.fields = [];
           msg.channel.send(embed);
           if (options.IsExit) break;
+
+          if (options.IsSubMenu) prevOptions.push(options);
 
           const prompt = await msg.channel.awaitMessages(
             (m) => promptFilter(m, options),
@@ -187,15 +230,22 @@ exports.run = async (client, msg, args, db, fs) => {
             // Otherwise, provide more prompts
           } else if (options.OptionType === 'Dialogue') {
             // Continue providing dialogue. It's worldbuilding.
+            // dialogueFunction(
+            //   options,
+            //   prevOptions,
+            //   embed,
+            //   landmark,
+            //   name,
+            //   desc,
+            //   fields
+            // );
             if (options.FurtherDialogue) {
               fields = populateOptions(options.EmbedName, options.Options);
               embed.embed.fields = fields;
-              if (options.IsSubMenu) prevOptions.push(options);
             }
             desc = options.Dialogue;
             embed.embed.title = '';
             embed.embed.description = desc;
-
             if (options.return || options.returnToSub) {
               embed.embed.title = title;
               if (options.return && !options.returnToSub) {
@@ -254,8 +304,8 @@ exports.run = async (client, msg, args, db, fs) => {
                 item.Id = Math.floor(Math.random() * 999999);
                 player.receiveItem(item);
                 msg.channel.send(options.Options[0].PurchaseDialogue);
-                dataUpdated = true;
                 embed.embed.description = '';
+                savePlayerData(player);
                 if (options.return) options = pastOptions;
               } else {
                 if (!canPurchase) {
@@ -289,11 +339,82 @@ exports.run = async (client, msg, args, db, fs) => {
             // resort to past options if necessary
           } else if (options.OptionType === 'Sell') {
             // Provide Dialogue
+
+            let sellableItems =
+              options.ItemTypeToSell === 'All'
+                ? player.Inventory.filter((x) => x.ItemType !== 'Key')
+                : player.Inventory.filter(
+                    (x) => x.ItemType === options.ItemTypeToSell
+                  );
+            let itemMessage = '';
+            sellableItems.push({
+              Key: sellableItems.length + 1,
+              Value: 'Decide against selling items.',
+              OptionType: 'Dialogue',
+              Availability: ['All'],
+              Dialogue:
+                'You decided against purchasing items. What else would you like to do?',
+              return: true,
+            });
+            sellableItems.map((x, i) => {
+              itemMessage += `${i + 1}: ${x.Name ? x.Name : x.Value}${
+                x.SellValue ? ' - ' + x.SellValue : ''
+              }\n`;
+            });
+            msg.channel.send(options.Dialogue + '\n\n' + itemMessage);
             // Provide player inventory. Select Item
-            // Calculate cost
-            // Make exchange
-            // Ask if the player wants to do anything else?
-            // resort to past options if necessary
+            const itemPrompt = await msg.channel.awaitMessages(
+              (m) => promptFilter(m, sellableItems),
+              {
+                time: 60000,
+                max: 1,
+              }
+            );
+
+            let itemIndex = itemPrompt.first().content;
+            let sellingItem = sellableItems[itemIndex - 1];
+            if (sellingItem.return === true) {
+              // Replayed code from Dialogue.
+              desc = options.Dialogue;
+              embed.embed.title = title;
+              embed.embed.description = desc;
+              options = landmark;
+              fields = populateOptions(name, options.Options);
+              prevOptions = [];
+              embed.embed.fields = fields;
+            } else {
+              // Calculate cost
+              msg.channel.send(
+                `Are you sure you want to sell ${sellingItem.Name} for ${sellingItem.SellValue}?\n(Y)es or (N)o`
+              );
+
+              let confirm = await msg.channel.awaitMessages(
+                confirmationFilter,
+                {
+                  time: 60000,
+                  max: 1,
+                }
+              );
+
+              let confirmed = isConfirmed(confirm.first().content);
+              if (confirmed) {
+                // Make exchange
+                // Remove Item from Player
+                player.Inventory = player.removeItem(sellingItem);
+                // Give them money
+                player.receiveMoney(location.Currency, sellingItem.SellValue);
+                savePlayerData(player);
+              }
+              // Display Sell Message or Not Sold Message
+              let resultMessage = `${
+                confirmed ? options.SellMessage : options.DeclinedMessage
+              } ${sellingItem.Name}`;
+              msg.channel.send(resultMessage);
+
+              // resort to past options if necessary
+              options = pastOptions;
+              //
+            }
           } else if (options.OptionType === 'Exit') {
             // Provide Dialogue
             // Update player data based on results
@@ -301,12 +422,6 @@ exports.run = async (client, msg, args, db, fs) => {
             msg.channel.send(`${options.Dialogue}\n${landmark.ExitText}`);
             break;
           }
-        }
-
-        if (dataUpdated) {
-          db.collection('Players')
-            .doc(msg.author.id)
-            .set(Object.assign({}, player));
         }
       } else {
         throw `It appears that ${location.Name} is not accessible at this time. Please try again another day.`;
