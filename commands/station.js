@@ -37,7 +37,6 @@ exports.run = async (client, msg, args, db, fs) => {
       'yass',
     ];
     pass = acceptable.some((opt) => {
-      console.log(opt);
       return message.toLowerCase().includes(opt);
     });
     if (!pass) {

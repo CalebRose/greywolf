@@ -38,7 +38,6 @@ exports.run = async (client, msg, args, db, fs) => {
       'nah',
     ];
     pass = acceptable.some((opt) => {
-      console.log(opt);
       return message.toLowerCase().includes(opt);
     });
     if (!pass) {
@@ -138,7 +137,9 @@ exports.run = async (client, msg, args, db, fs) => {
       );
       let confirm = confirmationPrompt.first().content;
       let traveling = isTraveling(confirm);
-      if (traveling) {
+      let hasTravelPoints = player.hasEnoughTravelPoints();
+      if (traveling && hasTravelPoints) {
+        player.decrementTravelPoints();
         let newLoc = locationData[player.Locale.CurrentNation][req.Name];
         if (!newLoc) {
           for (let nation in locationData) {
@@ -174,6 +175,8 @@ exports.run = async (client, msg, args, db, fs) => {
             },
           },
         });
+      } else if (!hasTravelPoints) {
+        throw `I'm sorry sir, but it appears you do not have anymore travel points. Please wait for your points to replenish on the next day.`;
       } else {
         msg.channel.send(
           `Staying in ${player.Locale.CurrentLocale} are we? Well, suit yourself.`
