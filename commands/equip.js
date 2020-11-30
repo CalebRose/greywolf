@@ -43,6 +43,10 @@ exports.run = async (client, msg, args, db) => {
           },
         },
       });
+
+      // TO COMPLETE
+      // Should weapons be held in inventory, and use holster as weapons in battle? Most likely
+      //
     }
   } catch (err) {
     console.log('Error getting document', err);

@@ -155,40 +155,6 @@ exports.run = async (client, msg, args, db, fs) => {
           return !pass && m.author.id === msg.author.id;
         };
 
-        var dialogueFunction = (
-          options,
-          prevOptions,
-          embed,
-          landmark,
-          name,
-          desc,
-          fields
-        ) => {
-          if (options.FurtherDialogue) {
-            fields = populateOptions(options.EmbedName, options.Options);
-            embed.embed.fields = fields;
-          }
-          desc = options.Dialogue;
-          embed.embed.title = '';
-          embed.embed.description = desc;
-
-          if (options.return || options.returnToSub) {
-            embed.embed.title = title;
-            if (options.return && !options.returnToSub) {
-              options = landmark;
-              fields = populateOptions(name, options.Options);
-              prevOptions = [];
-            } else if (!options.return && options.returnToSub) {
-              let returnDialogue = options.ReturnDialogue;
-
-              options = prevOptions.pop();
-              fields = populateOptions(returnDialogue, options.Options);
-            }
-            embed.embed.fields = fields;
-          }
-          return options, prevOptions, embed, landmark, name, desc, fields;
-        };
-
         const savePlayerData = (player) => {
           db.collection('Players')
             .doc(msg.author.id)
@@ -217,10 +183,84 @@ exports.run = async (client, msg, args, db, fs) => {
           let index = prompt.first().content;
           pastOptions = options;
           options = options.Options[index - 1];
-          if (options.OptionType === 'Train') {
-            // Do dialogue
-            // Converse?
-            // Provide more options
+          if (options.OptionType === 'Training') {
+            // Provide Dialogue
+            msg.channel.send(
+              options.Dialogue + options.Proficiency + utility.ConfirmText
+            );
+            let confirm = await msg.channel.awaitMessages(confirmationFilter, {
+              time: 60000,
+              max: 1,
+            });
+
+            let confirmed = isConfirmed(confirm.first().content);
+
+            if (confirmed) {
+              // Check if user can purchase
+              let canPurchase = player.checkForPurchase(
+                locationInfo.Currency,
+                options.Cost
+              );
+              // Check Action Points
+              let hasEnoughPoints = player.hasEnoughActionPoints();
+              //
+              if (canPurchase && hasEnoughPoints) {
+                player.payForItem(locationInfo.Currency, options.Cost);
+                // Calculate Training Value
+                const roll = utility.Roll;
+                const points = player.pointsAndBonus(
+                  player.Profession,
+                  options.Proficiency,
+                  roll
+                );
+                // Increment Skill Points
+                player.incrementSkillPoints(options.Proficiency, points);
+                // Decrement Action Points
+                player.decrementActionPoints();
+                // Display Message -- based on success of d20 roll
+                let dialogueMessage = '';
+                if (roll === 0)
+                  dialogueMessage = options.Options[0].OneDialogue;
+                else if (roll === 1)
+                  dialogueMessage = options.Options[0].PoorDialogue;
+                else if (roll === 2)
+                  dialogueMessage = options.Options[0].MediocreDialogue;
+                else if (roll === 3)
+                  dialogueMessage = options.Options[0].GoodPerformance;
+                else if (roll === 4)
+                  dialogueMessage = options.Options[0].GreatPerformance;
+                else if (roll === 5)
+                  dialogueMessage = options.Options[0].CriticalPerformance;
+                msg.channel.send(
+                  dialogueMessage +
+                    ` You received ${points} points. You used an Action Point.`
+                );
+                embed.embed.description = '';
+                savePlayerData(player);
+                if (options.return) options = pastOptions;
+              } else {
+                if (!canPurchase) {
+                  msg.channel.send(
+                    `${options.Options[0].UnableToPay}\n${landmark.ExitText}`
+                  );
+                  break;
+                } else if (!hasEnoughPoints) {
+                  msg.channel.send(
+                    `It appears you do not have enough action points to train. You decide to leave and save face.\n${landmark.ExitText}`
+                  );
+                  break;
+                }
+              }
+            } else {
+              // Declined to train
+              msg.channel.send(options.Options[1].Dialogue);
+              if (options.Options[1].return) {
+                options = pastOptions;
+              } else {
+                break;
+              }
+            }
+            //
           } else if (options.OptionType === 'SkillCheck') {
             options = new SkillCheckOption(options);
             // Roll for SkillCheck
@@ -230,15 +270,6 @@ exports.run = async (client, msg, args, db, fs) => {
             // Otherwise, provide more prompts
           } else if (options.OptionType === 'Dialogue') {
             // Continue providing dialogue. It's worldbuilding.
-            // dialogueFunction(
-            //   options,
-            //   prevOptions,
-            //   embed,
-            //   landmark,
-            //   name,
-            //   desc,
-            //   fields
-            // );
             if (options.FurtherDialogue) {
               fields = populateOptions(options.EmbedName, options.Options);
               embed.embed.fields = fields;
@@ -248,10 +279,12 @@ exports.run = async (client, msg, args, db, fs) => {
             embed.embed.description = desc;
             if (options.return || options.returnToSub) {
               embed.embed.title = title;
+              // Return to main dialogue menu
               if (options.return && !options.returnToSub) {
                 options = landmark;
                 fields = populateOptions(name, options.Options);
                 prevOptions = [];
+                // Return to sub menu
               } else if (!options.return && options.returnToSub) {
                 let returnDialogue = options.ReturnDialogue;
                 options = prevOptions.pop();
@@ -259,7 +292,6 @@ exports.run = async (client, msg, args, db, fs) => {
               }
               embed.embed.fields = fields;
             }
-            //
             //
           } else if (options.OptionType === 'Statement') {
             // Continue providing dialogue, but with no further possible options
@@ -270,6 +302,7 @@ exports.run = async (client, msg, args, db, fs) => {
                 : 0;
             embed.embed.description = options.DialogueOptions[idx];
             embed.embed.title = '';
+            // Statement was from Submenu (Or Dialogue Chain?)
             if (options.InDialogueChain) {
               embed.embed.fields[0].name = options.ReturnDialogue;
             }
@@ -332,11 +365,7 @@ exports.run = async (client, msg, args, db, fs) => {
                 break;
               }
             }
-            // Calculate cost
-            // Check if player can hold the item
-            // Make exchange
-            // Ask if the player wants to buy anything else?
-            // resort to past options if necessary
+            //
           } else if (options.OptionType === 'Sell') {
             // Provide Dialogue
 

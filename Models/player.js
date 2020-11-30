@@ -18,121 +18,121 @@ class Player {
         Level: data.Proficiencies.CloseQuarterGuns.Level || 1,
         Modifier: data.Proficiencies.CloseQuarterGuns.Modifier || 0,
         Points: data.Proficiencies.CloseQuarterGuns.Points || 0,
-        PointsRequired: data.Proficiencies.CloseQuarterGuns.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.CloseQuarterGuns.PointsRequired || 5,
       },
       LongRangeWeapons: {
         Level: data.Proficiencies.LongRangeWeapons.Level || 1,
         Modifier: data.Proficiencies.LongRangeWeapons.Modifier || 0,
         Points: data.Proficiencies.LongRangeWeapons.Points || 0,
-        PointsRequired: data.Proficiencies.LongRangeWeapons.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.LongRangeWeapons.PointsRequired || 5,
       },
       MeleeWeapons: {
         Level: data.Proficiencies.MeleeWeapons.Level || 1,
         Modifier: data.Proficiencies.MeleeWeapons.Modifier || 0,
         Points: data.Proficiencies.MeleeWeapons.Points || 0,
-        PointsRequired: data.Proficiencies.MeleeWeapons.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.MeleeWeapons.PointsRequired || 5,
       },
       Fisticuffs: {
         Level: data.Proficiencies.Fisticuffs.Level || 1,
         Modifier: data.Proficiencies.Fisticuffs.Modifier || 0,
         Points: data.Proficiencies.Fisticuffs.Points || 0,
-        PointsRequired: data.Proficiencies.Fisticuffs.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Fisticuffs.PointsRequired || 5,
       },
       Engineering: {
         Level: data.Proficiencies.Engineering.Level || 1,
         Modifier: data.Proficiencies.Engineering.Modifier || 0,
         Points: data.Proficiencies.Engineering.Points || 0,
-        PointsRequired: data.Proficiencies.Engineering.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Engineering.PointsRequired || 5,
       },
       Armor: {
         Level: data.Proficiencies.Armor.Level || 1,
         Modifier: data.Proficiencies.Armor.Modifier || 0,
         Points: data.Proficiencies.Armor.Points || 0,
-        PointsRequired: data.Proficiencies.Armor.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Armor.PointsRequired || 5,
       },
       Medicine: {
         Level: data.Proficiencies.Medicine.Level || 1,
         Modifier: data.Proficiencies.Medicine.Modifier || 0,
         Points: data.Proficiencies.Medicine.Points || 0,
-        PointsRequired: data.Proficiencies.Medicine.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Medicine.PointsRequired || 5,
       },
       Stealth: {
         Level: data.Proficiencies.Stealth.Level || 1,
         Modifier: data.Proficiencies.Stealth.Modifier || 0,
         Points: data.Proficiencies.Stealth.Points || 0,
-        PointsRequired: data.Proficiencies.Stealth.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Stealth.PointsRequired || 5,
       },
       Persuasion: {
         Level: data.Proficiencies.Persuasion.Level || 1,
         Modifier: data.Proficiencies.Persuasion.Modifier || 0,
         Points: data.Proficiencies.Persuasion.Points || 0,
-        PointsRequired: data.Proficiencies.Persuasion.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Persuasion.PointsRequired || 5,
       },
       Pickpocket: {
         Level: data.Proficiencies.Pickpocket.Level || 1,
         Modifier: data.Proficiencies.Pickpocket.Modifier || 0,
         Points: data.Proficiencies.Pickpocket.Points || 0,
-        PointsRequired: data.Proficiencies.Pickpocket.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Pickpocket.PointsRequired || 5,
       },
       Bartering: {
         Level: data.Proficiencies.Bartering.Level || 1,
         Modifier: data.Proficiencies.Bartering.Modifier || 0,
         Points: data.Proficiencies.Bartering.Points || 0,
-        PointsRequired: data.Proficiencies.Bartering.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Bartering.PointsRequired || 5,
       },
       Vehicles: {
         Level: data.Proficiencies.Vehicles.Level || 1,
         Modifier: data.Proficiencies.Vehicles.Modifier || 0,
         Points: data.Proficiencies.Vehicles.Points || 0,
-        PointsRequired: data.Proficiencies.Vehicles.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Vehicles.PointsRequired || 5,
       },
       Gol: {
         Level: data.Proficiencies.Gol.Level || 1,
         Modifier: data.Proficiencies.Gol.Modifier || 0,
         Points: data.Proficiencies.Gol.Points || 0,
-        PointsRequired: data.Proficiencies.Gol.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Gol.PointsRequired || 5,
       },
       Waldish: {
         Level: data.Proficiencies.Waldish.Level || 1,
         Modifier: data.Proficiencies.Waldish.Modifier || 0,
         Points: data.Proficiencies.Waldish.Points || 0,
-        PointsRequired: data.Proficiencies.Waldish.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Waldish.PointsRequired || 5,
       },
       Rubese: {
         Level: data.Proficiencies.Rubese.Level || 1,
         Modifier: data.Proficiencies.Rubese.Modifier || 0,
         Points: data.Proficiencies.Rubese.Points || 0,
-        PointsRequired: data.Proficiencies.Rubese.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Rubese.PointsRequired || 5,
       },
       Nordish: {
         Level: data.Proficiencies.Nordish.Level || 1,
         Modifier: data.Proficiencies.Nordish.Modifier || 0,
         Points: data.Proficiencies.Nordish.Points || 0,
-        PointsRequired: data.Proficiencies.Nordish.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Nordish.PointsRequired || 5,
       },
       Bregian: {
         Level: data.Proficiencies.Bregian.Level || 1,
         Modifier: data.Proficiencies.Bregian.Modifier || 0,
         Points: data.Proficiencies.Bregian.Points || 0,
-        PointsRequired: data.Proficiencies.Bregian.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Bregian.PointsRequired || 5,
       },
       Numorean: {
         Level: data.Proficiencies.Numorean.Level || 1,
         Modifier: data.Proficiencies.Numorean.Modifier || 0,
         Points: data.Proficiencies.Numorean.Points || 0,
-        PointsRequired: data.Proficiencies.Numorean.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Numorean.PointsRequired || 5,
       },
       Volkaic: {
         Level: data.Proficiencies.Volkaic.Level || 1,
         Modifier: data.Proficiencies.Volkaic.Modifier || 0,
         Points: data.Proficiencies.Volkaic.Points || 0,
-        PointsRequired: data.Proficiencies.Volkaic.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Volkaic.PointsRequired || 5,
       },
       Escanic: {
         Level: data.Proficiencies.Escanic.Level || 1,
         Modifier: data.Proficiencies.Escanic.Modifier || 0,
         Points: data.Proficiencies.Escanic.Points || 0,
-        PointsRequired: data.Proficiencies.Escanic.PointsRequired || 0,
+        PointsRequired: data.Proficiencies.Escanic.PointsRequired || 5,
       },
     };
     this.Condition = data.Condition || 'Healthy';
@@ -231,6 +231,7 @@ class Player {
         };
     this.DateCreated = data.DateCreated || Date.now();
   }
+
   incrementAttribute(attr) {
     attr = attr.toLowerCase();
     if (attr === 'strength') {
@@ -246,6 +247,7 @@ class Player {
     }
     return this;
   }
+
   incrementSkill(skill) {
     skill = skill.toLowerCase();
     if (skill === 'closequarterguns') {
@@ -284,12 +286,14 @@ class Player {
       this.Proficiencies.Volkaic.Level += 1;
     } else if (skill === 'escanic') {
       this.Proficiencies.Escanic.Level += 1;
+    } else if (skill === 'atalian') {
+      this.Proficiencies.Atalian.Level += 1;
     }
     return this;
   }
 
   incrementSkillPoints(skill, points) {
-    let skillName = skill.toLowerCase();
+    let skillName = skill.replace(/\s/g, '').toLowerCase();
     if (skillName === 'closequarterguns') {
       this.Proficiencies.CloseQuarterGuns.Points += points;
       if (
@@ -297,8 +301,8 @@ class Player {
         this.Proficiencies.CloseQuarterGuns.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.CloseQuarterGuns.PointsRequired += Math.floor(
-          this.Proficiencies.CloseQuarterGuns.PointsRequired * 0.1
+        this.Proficiencies.CloseQuarterGuns.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.CloseQuarterGuns.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.CloseQuarterGuns.Level;
@@ -310,8 +314,8 @@ class Player {
         this.Proficiencies.LongRangeWeapons.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.LongRangeWeapons.PointsRequired += Math.floor(
-          this.Proficiencies.LongRangeWeapons.PointsRequired * 0.1
+        this.Proficiencies.LongRangeWeapons.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.LongRangeWeapons.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.LongRangeWeapons.Level;
@@ -323,8 +327,8 @@ class Player {
         this.Proficiencies.MeleeWeapons.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.MeleeWeapons.PointsRequired += Math.floor(
-          this.Proficiencies.MeleeWeapons.PointsRequired * 0.1
+        this.Proficiencies.MeleeWeapons.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.MeleeWeapons.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.MeleeWeapons.Level;
@@ -336,8 +340,8 @@ class Player {
         this.Proficiencies.Fisticuffs.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Fisticuffs.PointsRequired += Math.floor(
-          this.Proficiencies.Fisticuffs.PointsRequired * 0.1
+        this.Proficiencies.Fisticuffs.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Fisticuffs.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Fisticuffs.Level;
@@ -349,8 +353,8 @@ class Player {
         this.Proficiencies.Medicine.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Medicine.PointsRequired += Math.floor(
-          this.Proficiencies.Medicine.PointsRequired * 0.1
+        this.Proficiencies.Medicine.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Medicine.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Medicine.Level;
@@ -362,8 +366,8 @@ class Player {
         this.Proficiencies.Stealth.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Stealth.PointsRequired += Math.floor(
-          this.Proficiencies.Stealth.PointsRequired * 0.1
+        this.Proficiencies.Stealth.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Stealth.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Stealth.Level;
@@ -375,8 +379,8 @@ class Player {
         this.Proficiencies.Persuasion.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Persuasion.PointsRequired += Math.floor(
-          this.Proficiencies.Persuasion.PointsRequired * 0.1
+        this.Proficiencies.Persuasion.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Persuasion.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Persuasion.Level;
@@ -388,8 +392,8 @@ class Player {
         this.Proficiencies.Pickpocket.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Pickpocket.PointsRequired += Math.floor(
-          this.Proficiencies.Pickpocket.PointsRequired * 0.1
+        this.Proficiencies.Pickpocket.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Pickpocket.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Pickpocket.Level;
@@ -401,8 +405,8 @@ class Player {
         this.Proficiencies.Bartering.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Bartering.PointsRequired += Math.floor(
-          this.Proficiencies.Bartering.PointsRequired * 0.1
+        this.Proficiencies.Bartering.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Bartering.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Bartering.Level;
@@ -414,8 +418,8 @@ class Player {
         this.Proficiencies.Vehicles.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Vehicles.PointsRequired += Math.floor(
-          this.Proficiencies.Vehicles.PointsRequired * 0.1
+        this.Proficiencies.Vehicles.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Vehicles.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Vehicles.Level;
@@ -426,8 +430,8 @@ class Player {
         this.Proficiencies.Gol.Points >= this.Proficiencies.Gol.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Gol.PointsRequired += Math.floor(
-          this.Proficiencies.Gol.PointsRequired * 0.1
+        this.Proficiencies.Gol.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Gol.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Gol.Level;
@@ -439,8 +443,8 @@ class Player {
         this.Proficiencies.Waldish.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Waldish.PointsRequired += Math.floor(
-          this.Proficiencies.Waldish.PointsRequired * 0.1
+        this.Proficiencies.Waldish.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Waldish.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Waldish.Level;
@@ -452,8 +456,8 @@ class Player {
         this.Proficiencies.Rubese.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Rubese.PointsRequired += Math.floor(
-          this.Proficiencies.Rubese.PointsRequired * 0.1
+        this.Proficiencies.Rubese.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Rubese.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Rubese.Level;
@@ -465,8 +469,8 @@ class Player {
         this.Proficiencies.Nordish.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Nordish.PointsRequired += Math.floor(
-          this.Proficiencies.Nordish.PointsRequired * 0.1
+        this.Proficiencies.Nordish.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Nordish.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Nordish.Level;
@@ -478,8 +482,8 @@ class Player {
         this.Proficiencies.Bregian.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Bregian.PointsRequired += Math.floor(
-          this.Proficiencies.Bregian.PointsRequired * 0.1
+        this.Proficiencies.Bregian.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Bregian.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Bregian.Level;
@@ -491,8 +495,8 @@ class Player {
         this.Proficiencies.Numorean.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Numorean.PointsRequired += Math.floor(
-          this.Proficiencies.Numorean.PointsRequired * 0.1
+        this.Proficiencies.Numorean.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Numorean.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Numorean.Level;
@@ -504,8 +508,8 @@ class Player {
         this.Proficiencies.Volkaic.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Volkaic.PointsRequired += Math.floor(
-          this.Proficiencies.Volkaic.PointsRequired * 0.1
+        this.Proficiencies.Volkaic.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Volkaic.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Volkaic.Level;
@@ -517,14 +521,191 @@ class Player {
         this.Proficiencies.Escanic.PointsRequired
       ) {
         this.incrementSkill(skill);
-        this.Proficiencies.Escanic.PointsRequired += Math.floor(
-          this.Proficiencies.Escanic.PointsRequired * 0.1
+        this.Proficiencies.Escanic.PointsRequired += this.incrementPointsRequired(
+          this.Proficiencies.Escanic.PointsRequired
         );
         this.Mods.SkillUp.Skill = skill;
         this.Mods.SkillUp.Level = this.Mods.Proficiencies.Escanic.Level;
       }
     }
     return this;
+  }
+
+  incrementPointsRequired(points) {
+    return points + Math.ceil(points * 0.1);
+  }
+
+  pointsAndBonus(name, skill, points) {
+    let skillName = skill.replace(/\s/g, '').toLowerCase();
+    switch (name) {
+      case 'Conscript':
+        if (
+          skillName === 'longrangeweapons' ||
+          skillName === 'closequarterguns' ||
+          skillName === 'meleeweapons'
+        ) {
+          return points + Math.ceil(points * 0.25);
+        }
+        break;
+      case 'Petty Criminal':
+        if (skillName === 'stealth' || skillName === 'pickpocket') {
+          return points + Math.ceil(points * 0.25);
+        }
+        break;
+      case 'Merchant':
+        if (skillName === 'bartering' || skillName === 'persuasion') {
+          return points + Math.ceil(points * 0.25);
+        }
+        break;
+      case 'Vagrant':
+        if (skillName === 'fisticuffs') {
+          return points + Math.ceil(points * 0.25);
+        }
+        break;
+      case 'Academic':
+        if (skillName === 'engineering' || skillName === 'vehicle') {
+          return points + Math.ceil(points * 0.25);
+        }
+        break;
+      case 'The Gol Republic':
+        if (skillName === 'gol') return points * Math.ceil(points * 0.5);
+        break;
+      case ('The Walderlund', 'Friedlerin', 'Halvania'):
+        if (skillName === 'waldish') return points * Math.ceil(points * 0.5);
+        break;
+      case 'Bregan':
+        if (skillName === 'bregian') return points * Math.ceil(points * 0.5);
+        break;
+      case 'Rubinia':
+        if (skillName === 'rubese') return points * Math.ceil(points * 0.5);
+        break;
+      case 'Nordank':
+        if (skillName === 'nordish') return points * Math.ceil(points * 0.5);
+        break;
+      case 'The Volka':
+        if (skillName === 'volkaic') return points * Math.ceil(points * 0.5);
+        break;
+      case 'Atalia':
+        if (skillName === 'numorean') return points * Math.ceil(points * 0.5);
+        break;
+      case 'Escagon':
+        if (skillName === 'escanic') return points * Math.ceil(points * 0.5);
+        break;
+    }
+  }
+
+  checkForPurchase(currency, cost) {
+    if (currency.toLowerCase() === 'marks') {
+      if (cost > this.Currencies.WaldishMarks) {
+        return false;
+      }
+      return true;
+    } else if (currency.toLowerCase() === 'gols') {
+      if (cost > this.Currencies.GolicGols) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  checkInventorySpace() {
+    if (this.Inventory.length < this.InventoryLimit) {
+      return true;
+    }
+    return false;
+  }
+
+  payForItem(currency, cost) {
+    if (currency.toLowerCase() === 'marks') {
+      this.Currencies.WaldishMarks -= parseInt(cost);
+    } else if (currency.toLowerCase() === 'gols') {
+      this.Currencies.GolicGols -= parseInt(cost);
+    }
+  }
+
+  receiveMoney(currency, amount) {
+    if (currency.toLowerCase() === 'marks') {
+      this.Currencies.WaldishMarks += amount;
+    } else if (currency.toLowerCase() === 'gols') {
+      this.Currencies.GolicGols += amount;
+    }
+  }
+
+  receiveItem(item) {
+    // If Item Increases Limit
+    if (item.ItemType === 'Inventory') {
+      this.InventoryLimit += item.ModifierValue;
+    } else {
+      // Generic Push
+      if (this.Inventory.length < this.InventoryLimit) {
+        this.Inventory.push(item);
+      } else {
+        return;
+      }
+    }
+  }
+
+  useItem(item) {
+    let message = '';
+    // Check Item Type
+    // Food
+    let remove = false;
+    if (item.ItemType === 'Food') {
+      // Check if already eaten?
+      if (!this.Mods.HasEatenToday) {
+        // Add to modifier
+        this.Mods.HasEatenToday = true;
+        remove = true;
+        this.Proficiencies[item.Modifier].Modifier += item.ModifierValue;
+        message = `${item.Name} was consumed. ${this.Name}'s ${item.Modifier} modifier has increased by ${item.ModifierValue} for the day.`;
+      }
+    }
+    // Book
+    else if (item.ItemType === 'Book') {
+      // Check if already read today.
+      if (!this.Mods.HasReadToday) {
+        item.CurrentReadCount++;
+        if (item.ReadCount === item.CurrentReadCount) {
+          remove = true;
+          this.incrementSkillPoints(Modifier, ModifierValue);
+          message = `${this.Name} has finished reading ${item.Name} and has increased their ${item.Modifier} proficiency by ${item.ModifierValue}.`;
+        } else {
+          message = `${this.Name} spent some time reading ${item.Name}. It appears they still have a bit more reading left to finish the book.`;
+        }
+      }
+      // If not, increment read counter; check off read status
+      // Add Points to target Proficiency
+    }
+
+    if (remove) {
+      this.Inventory = this.removeItem(item);
+    }
+    return this, message;
+  }
+
+  removeItem(item) {
+    return this.Inventory.filter((x) => x.Id !== item.Id);
+  }
+
+  replenishPoints() {
+    this.Action.CurrentTravelPoints = this.Action.TravelPoints;
+    this.Action.CurrentActionPoints = this.Action.ActionPoints;
+  }
+
+  hasEnoughActionPoints() {
+    return this.Action.CurrentActionPoints > 0;
+  }
+
+  hasEnoughTravelPoints() {
+    return this.Action.CurrentTravelPoints > 0;
+  }
+
+  decrementActionPoints() {
+    this.Action.CurrentActionPoints--;
+  }
+
+  decrementTravelPoints() {
+    this.Action.CurrentTravelPoints--;
   }
 
   setLocale(loc) {
@@ -558,6 +739,7 @@ class Player {
     }
     return this;
   }
+
   getMostUsedWeapon() {
     const WeaponUse = [
       { Name: 'Pistol', Value: this.Stats.PistolUse },
@@ -708,99 +890,6 @@ class Player {
           break;
       }
     }
-  }
-
-  checkForPurchase(currency, cost) {
-    if (currency.toLowerCase() === 'marks') {
-      if (cost > this.Currencies.WaldishMarks) {
-        return false;
-      }
-      return true;
-    } else if (currency.toLowerCase() === 'gols') {
-      if (cost > this.Currencies.GolicGols) {
-        return false;
-      }
-      return true;
-    }
-  }
-
-  checkInventorySpace() {
-    if (this.Inventory.length < this.InventoryLimit) {
-      return true;
-    }
-    return false;
-  }
-
-  payForItem(currency, cost) {
-    if (currency.toLowerCase() === 'marks') {
-      this.Currencies.WaldishMarks -= parseInt(cost);
-    } else if (currency.toLowerCase() === 'gols') {
-      this.Currencies.GolicGols -= parseInt(cost);
-    }
-  }
-
-  receiveMoney(currency, amount) {
-    if (currency.toLowerCase() === 'marks') {
-      this.Currencies.WaldishMarks += amount;
-    } else if (currency.toLowerCase() === 'gols') {
-      this.Currencies.GolicGols += amount;
-    }
-  }
-
-  receiveItem(item) {
-    // If Item Increases Limit
-    if (item.ItemType === 'Inventory') {
-      this.InventoryLimit += item.ModifierValue;
-    } else {
-      // Generic Push
-      if (this.Inventory.length < this.InventoryLimit) {
-        this.Inventory.push(item);
-      } else {
-        return;
-      }
-    }
-  }
-
-  useItem(item) {
-    let message = '';
-    // Check Item Type
-    // Food
-    let remove = false;
-    if (item.ItemType === 'Food') {
-      // Check if already eaten?
-      if (!this.Mods.HasEatenToday) {
-        // Add to modifier
-        this.Mods.HasEatenToday = true;
-        remove = true;
-        this.Proficiencies[item.Modifier].Modifier += item.ModifierValue;
-        message = `${item.Name} was consumed. ${this.Name}'s ${item.Modifier} modifier has increased by ${item.ModifierValue} for the day.`;
-      }
-    }
-    // Book
-    else if (item.ItemType === 'Book') {
-      // Check if already read today.
-      if (!this.Mods.HasReadToday) {
-        item.CurrentReadCount++;
-        if (item.ReadCount === item.CurrentReadCount) {
-          remove = true;
-          this.incrementSkillPoints(Modifier, ModifierValue);
-          message = `${this.Name} has finished reading ${item.Name} and has increased their ${item.Modifier} proficiency by ${item.ModifierValue}.`;
-        } else {
-          message = `${this.Name} spent some time reading ${item.Name}. It appears they still have a bit more reading left to finish the book.`;
-        }
-      }
-      // If not, increment read counter; check off read status
-      // Add Points to target Proficiency
-    }
-
-    if (remove) {
-      this.Inventory = this.removeItem(item);
-    }
-    return this, message;
-  }
-
-  removeItem(item) {
-    return this.Inventory.filter((x) => x.Id !== item.Id);
   }
 }
 
