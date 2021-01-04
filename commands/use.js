@@ -19,7 +19,7 @@ exports.run = async (client, msg, args, db, fs) => {
     if (!data) {
       throw 'It appears there is no information on you. Are you new here? Try registering or using !help for more info.';
     }
-    let player = new Player(msg.author.username, data);
+    let player = new Player(msg.author.id, msg.author.username, data);
     // World Data
     let nation = player.Locale.CurrentNation;
     let loc = player.Locale.CurrentLocale;

@@ -12,7 +12,7 @@ exports.run = async (client, msg, args, db) => {
     let oldDoc = await oldRef.get();
     let oldData = oldDoc.data();
 
-    let player = new Player(msg.author.username, oldData);
+    let player = new Player(msg.author.id, msg.author.username, oldData);
     let weapon;
     if (player.Profession === 'Conscript') {
       if (

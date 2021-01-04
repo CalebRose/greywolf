@@ -57,7 +57,7 @@ exports.run = async (client, msg, args, db, fs) => {
     if (!data) {
       throw 'It appears there is no information on you. Are you new here? Try registering or using !help for more info.';
     }
-    let player = new Player(msg.author.username, data);
+    let player = new Player(msg.author.id, msg.author.username, data);
     let nation = player.Locale.CurrentNation;
     let loc = player.Locale.CurrentLocale;
     if (!loc || loc.length < 1) {
@@ -134,10 +134,12 @@ exports.run = async (client, msg, args, db, fs) => {
         }
       );
       let confirm = confirmationPrompt.first().content;
-
       // Check player's Travel Points
       let traveling = isTraveling(confirm);
-      if (traveling) {
+      let hasTravelPoints = player.hasEnoughTravelPoints();
+
+      if (traveling && hasTravelPoints) {
+        player.decrementTravelPoints();
         let newLoc = locationData[player.Locale.CurrentNation][req.Name];
         if (!newLoc) {
           for (let nation in locationData) {
@@ -176,6 +178,8 @@ exports.run = async (client, msg, args, db, fs) => {
             },
           },
         });
+      } else if (!hasTravelPoints) {
+        throw `I'm sorry sir, but it appears you do not have anymore travel points. Please wait for your points to replenish on the next day.`;
       } else {
         msg.channel.send(
           `Staying in ${player.Locale.CurrentLocale} are we? Well, suit yourself.`

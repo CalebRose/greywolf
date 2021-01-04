@@ -8,7 +8,7 @@ exports.run = async (client, msg, args, db) => {
   let docRef = db.collection('Players').doc(msg.author.id);
   let getDoc = await docRef.get();
   const data = getDoc.data();
-  let player = new Player(msg.author.username, data);
+  let player = new Player(msg.author.id, msg.author.username, data);
   try {
     if (!args || args.length < 1) {
       // Display Holster

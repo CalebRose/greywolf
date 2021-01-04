@@ -20,7 +20,7 @@ exports.run = async (client, msg, args, db, fs) => {
     let docRef = db.collection('Players').doc(msg.author.id);
     let getDoc = await docRef.get();
     const data = getDoc.data();
-    let player = new Player(msg.author.username, data);
+    let player = new Player(msg.author.id, msg.author.username, data);
     let nation = player.Locale.CurrentNation;
     let loc = player.Locale.CurrentLocale;
     let locationInfo = new Location(locationData[nation][loc]);
@@ -35,10 +35,10 @@ exports.run = async (client, msg, args, db, fs) => {
           if (loc.Availability[0] !== 'All') {
             accessible = loc.Availability.some(available);
             if (accessible) {
-              knownEstablishments += `${loc.Id}: ${loc.Name} - ${loc.ShortDesc}\n`;
+              knownEstablishments += `**${loc.Id}**: ${loc.Name} - ${loc.ShortDesc}\n`;
             }
           } else {
-            knownEstablishments += `${loc.Id}: ${loc.Name} - ${loc.ShortDesc}\n`;
+            knownEstablishments += `**${loc.Id}**: ${loc.Name} - ${loc.ShortDesc}\n`;
           }
         });
       }

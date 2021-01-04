@@ -7,7 +7,7 @@ exports.run = async (client, msg, args, db) => {
   const data = getDoc.data();
   try {
     if (!args || args.length < 1) {
-      const pl = new Player(msg.author.username, data);
+      const pl = new Player(msg.author.id, msg.author.username, data);
       let weapon = pl.getMostUsedWeapon();
       const stats = pl.Stats;
       msg.channel.send({
@@ -55,9 +55,9 @@ exports.run = async (client, msg, args, db) => {
           },
         },
       });
-      db.collection('Players')
-        .doc(msg.author.username)
-        .set(Object.assign({}, pl));
+      // db.collection('Players')
+      //   .doc(msg.author.username)
+      //   .set(Object.assign({}, pl));
     } else {
       //
     }

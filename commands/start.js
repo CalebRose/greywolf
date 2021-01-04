@@ -27,7 +27,7 @@ exports.run = async (client, msg, args, db, fs) => {
         // Fill out scenarios for completing the registration process
       }
     } else {
-      let player = new Player(msg.author.username);
+      let player = new Player(msg.author.id, msg.author.username);
       // Set new player in DB
       //   db.collection('Players').doc(msg.author.username).set(player);
       const illegalNames = [
@@ -432,7 +432,20 @@ exports.run = async (client, msg, args, db, fs) => {
       const skills = finalAnswer.first().content.split(' ');
       for (let i = 0; i < skills.length; i++) {
         let s = findSkill(skills[i]);
-        player = player.incrementSkill(s);
+        let points = 5;
+        let skillLevel = player.findSkillLevel(s);
+        switch (skillLevel) {
+          case 1:
+            points = 5;
+            break;
+          case 2:
+            points = 12;
+            break;
+          case 3:
+            points = 21;
+            break;
+        }
+        player = player.incrementSkillPoints(s, points);
       }
 
       //
@@ -443,8 +456,10 @@ exports.run = async (client, msg, args, db, fs) => {
       player.Registration.isComplete = true;
       player.Locale.CurrentNation = 'The Walderlund';
       player.Locale.CurrentLocale = 'Derdach';
+      player.calculateHealth();
 
-      // Give player a weapon
+      // Give Money
+      player.receiveMoney('marks', 50);
 
       // Post to DB
       // console.log(player);

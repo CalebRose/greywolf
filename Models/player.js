@@ -1,6 +1,7 @@
 class Player {
-  constructor(username, data) {
-    this.Username = username;
+  constructor(id, username, data) {
+    this.ID = data.ID || id;
+    this.Username = data.username || username;
     this.Name = data.Name || '';
     this.Gender = data.Gender || '';
     this.Age = data.Age || 0;
@@ -136,8 +137,8 @@ class Player {
       },
     };
     this.Condition = data.Condition || 'Healthy';
-    this.HealthRating = data.HealthRating || 0;
-    this.CurrentHealth = data.CurrentHealth || 0;
+    this.HealthRating = data.HealthRating || 25;
+    this.CurrentHealth = data.CurrentHealth || 25;
     this.Behavior = {
       Aggresion: data.Behavior.Aggresion || false,
       Curiosity: data.Behavior.Curiosity || false,
@@ -155,6 +156,7 @@ class Player {
     this.Experience = data.Experience || 0;
     this.ExperienceRequired = data.ExperienceRequired || 25;
     this.Armor = data.Armor || {};
+    this.Missions = data.Missions || {};
     this.InCover = data.InCover || false;
     this.Ready = data.Ready || false;
     this.HasFought = data.HasFought || false;
@@ -246,6 +248,50 @@ class Player {
       this.Attributes.Endurance += 1;
     }
     return this;
+  }
+
+  findSkillLevel(skill) {
+    skill = skill.toLowerCase();
+    if (skill === 'closequarterguns') {
+      return this.Proficiencies.CloseQuarterGuns.Level;
+    } else if (skill === 'longrangeweapons') {
+      return this.Proficiencies.LongRangeWeapons.Level;
+    } else if (skill === 'meleeweapons') {
+      return this.Proficiencies.MeleeWeapons.Level;
+    } else if (skill === 'fisticuffs') {
+      return this.Proficiencies.Fisticuffs.Level;
+    } else if (skill === 'medicine') {
+      return this.Proficiencies.Medicine.Level;
+    } else if (skill === 'stealth') {
+      return this.Proficiencies.Stealth.Level;
+    } else if (skill === 'persuasion') {
+      return this.Proficiencies.Persuasion.Level;
+    } else if (skill === 'pickpocket') {
+      return this.Proficiencies.Pickpocket.Level;
+    } else if (skill === 'bartering') {
+      return this.Proficiencies.Bartering.Level;
+    } else if (skill === 'vehicles') {
+      return this.Proficiencies.Vehicles.Level;
+    } else if (skill === 'gol') {
+      return this.Proficiencies.Gol.Level;
+    } else if (skill === 'waldish') {
+      return this.Proficiencies.Waldish.Level;
+    } else if (skill === 'rubese') {
+      return this.Proficiencies.Rubese.Level;
+    } else if (skill === 'nordish') {
+      return this.Proficiencies.Nordish.Level;
+    } else if (skill === 'bregian') {
+      return this.Proficiencies.Bregian.Level;
+    } else if (skill === 'numorean') {
+      return this.Proficiencies.Numorean.Level;
+    } else if (skill === 'volkaic') {
+      return this.Proficiencies.Volkaic.Level;
+    } else if (skill === 'escanic') {
+      return this.Proficiencies.Escanic.Level;
+    } else if (skill === 'atalian') {
+      return this.Proficiencies.Atalian.Level;
+    }
+    return;
   }
 
   incrementSkill(skill) {
@@ -685,6 +731,16 @@ class Player {
 
   removeItem(item) {
     return this.Inventory.filter((x) => x.Id !== item.Id);
+  }
+
+  // Replenish Health
+  replenishHealth() {
+    this.CurrentHealth = this.HealthRating;
+  }
+  // Calculate Health
+  calculateHealth() {
+    this.HealthRating = 25 + this.Attributes.Endurance * 5;
+    this.CurrentHealth = this.HealthRating;
   }
 
   replenishPoints() {

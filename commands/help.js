@@ -21,6 +21,16 @@ exports.run = (client, msg, args) => {
               'I will provide you with your latest records & achievements.',
           },
           {
+            name: '!locale',
+            value:
+              'I will provide you with general info on your current location.',
+          },
+          {
+            name: '!enter #',
+            value:
+              'You will enter the establishment listed on the Known Establishments list in !locale.',
+          },
+          {
             name: '!ready {Mission Name}',
             value:
               'This will indicate that you are prepared for the next mission. Indicating the name will allow me to properly prepare any travel requirements needed for you to embark with your group.',
