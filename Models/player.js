@@ -1,7 +1,9 @@
+const constants = require('../Data/constants');
+
 class Player {
   constructor(id, username, data) {
-    this.ID = data.ID || id;
-    this.Username = data.username || username;
+    this.ID = id;
+    this.Username = username;
     this.Name = data.Name || '';
     this.Gender = data.Gender || '';
     this.Age = data.Age || 0;
@@ -136,7 +138,7 @@ class Player {
         PointsRequired: data.Proficiencies.Escanic.PointsRequired || 5,
       },
     };
-    this.Condition = data.Condition || 'Healthy';
+    this.Condition = data.Condition || constants.healthyConstant;
     this.HealthRating = data.HealthRating || 25;
     this.CurrentHealth = data.CurrentHealth || 25;
     this.Behavior = {
@@ -661,6 +663,10 @@ class Player {
     return false;
   }
 
+  checkHolster() {
+    return this.Holster.length < this.HolsterLimit;
+  }
+
   payForItem(currency, cost) {
     if (currency.toLowerCase() === 'marks') {
       this.Currencies.WaldishMarks -= parseInt(cost);
@@ -670,17 +676,25 @@ class Player {
   }
 
   receiveMoney(currency, amount) {
-    if (currency.toLowerCase() === 'marks') {
+    if (currency.toLowerCase() === constants.marksConstant.toLowerCase()) {
       this.Currencies.WaldishMarks += amount;
-    } else if (currency.toLowerCase() === 'gols') {
+    } else if (
+      currency.toLowerCase() === constants.golsConstant.toLowerCase()
+    ) {
       this.Currencies.GolicGols += amount;
     }
   }
 
   receiveItem(item) {
     // If Item Increases Limit
-    if (item.ItemType === 'Inventory') {
+    if (
+      item.ItemType.toLowerCase() === constants.inventoryConstant.toLowerCase()
+    ) {
       this.InventoryLimit += item.ModifierValue;
+    } else if (item.ItemType.toLowerCase() === constants.weaponConstant) {
+      if (this.Holster.length < this.HolsterLimit) {
+        this.Holster.push(item);
+      }
     } else {
       // Generic Push
       if (this.Inventory.length < this.InventoryLimit) {
@@ -696,7 +710,7 @@ class Player {
     // Check Item Type
     // Food
     let remove = false;
-    if (item.ItemType === 'Food') {
+    if (item.ItemType.toLowerCase() === constants.foodConstant.toLowerCase()) {
       // Check if already eaten?
       if (!this.Mods.HasEatenToday) {
         // Add to modifier
@@ -707,7 +721,9 @@ class Player {
       }
     }
     // Book
-    else if (item.ItemType === 'Book') {
+    else if (
+      item.ItemType.toLowerCase() === constants.bookConstant.toLowerCase()
+    ) {
       // Check if already read today.
       if (!this.Mods.HasReadToday) {
         item.CurrentReadCount++;
@@ -772,24 +788,34 @@ class Player {
   setLanguage(nation) {
     // For the beginning of the game only
     this.Proficiencies.Waldish.Level = 3;
-    if (nation === 'The Gol Republic') {
+    if (nation.toLowerCase() === constants.golRepublicConstant.toLowerCase()) {
       this.Proficiencies.Gol.Level = 3;
-    } else if (nation === 'Bregan') {
+    } else if (
+      nation.toLowerCase() === constants.breganConstant.toLowerCase()
+    ) {
       this.Proficiencies.Bregian.Level = 3;
-    } else if (nation === 'Atalia') {
+    } else if (
+      nation.toLowerCase() === constants.ataliaConstant.toLowerCase()
+    ) {
       this.Proficiencies.Numorean.Level = 3;
-    } else if (nation === 'Rubinia') {
+    } else if (
+      nation.toLowerCase() === constants.rubiniaConstant.toLowerCase()
+    ) {
       this.Proficiencies.Rubese.Level = 3;
-    } else if (nation === 'Nordank') {
+    } else if (
+      nation.toLowerCase() === constants.nordankConstant.toLowerCase()
+    ) {
       this.Proficiencies.Nordish.Level = 3;
-    } else if (nation === 'The Volka') {
+    } else if (nation.toLowerCase() === constants.volkaConstant.toLowerCase()) {
       this.Proficiencies.Volkaic.Level = 3;
-    } else if (nation === 'Escagon') {
+    } else if (
+      nation.toLowerCase() === constants.esgaconConstant.toLowerCase()
+    ) {
       this.Proficiencies.Escanic.Level = 3;
     } else if (
-      nation === 'The Walderlund' ||
-      nation === 'Friedlerin' ||
-      nation === 'Halvania'
+      nation.toLowerCase() === constants.walderlundConstant.toLowerCase() ||
+      nation.toLowerCase() === constants.friedlerinConstant.toLowerCase() ||
+      nation.toLowerCase() === constants.halvaniaConstant.toLowerCase()
     ) {
       this.Proficiencies.Waldish.Level += 1;
     }
@@ -817,13 +843,21 @@ class Player {
 
   getStarterWeapon(json) {
     for (let i = 0; i < json[Player.OriginNation].length; i++) {
-      switch (Player.OriginNation) {
-        case 'The Walderlund' || 'Halvania' || 'Friedlerin':
-          if (Player.Profession === 'Conscript') {
+      switch (Player.OriginNation.toLowerCase()) {
+        case constants.walderlundConstant.toLowerCase() ||
+          constants.halvaniaConstant.toLowerCase() ||
+          constants.friedlerinConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
               Player.Weapon = json[Player.OriginNation][i];
             }
@@ -833,12 +867,18 @@ class Player {
             }
           }
           break;
-        case 'The Gol Republic':
-          if (Player.Profession === 'Conscript') {
+        case constants.golRepublicConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
               Player.Weapon = json[Player.OriginNation][i];
             }
@@ -848,14 +888,20 @@ class Player {
             }
           }
           break;
-        case 'Bregan':
-          if (Player.Profession === 'Conscript') {
+        case constants.breganConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (
               json[Player.OriginNation][i].Name === '4e38 Stanley-Onfielder'
             ) {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (
               json[Player.OriginNation][i].Name === "Bregian Officer's Sword"
             ) {
@@ -867,12 +913,18 @@ class Player {
             }
           }
           break;
-        case 'Rubinia':
-          if (Player.Profession === 'Conscript') {
+        case constants.rubiniaConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
               Player.Weapon = json[Player.OriginNation][i];
             }
@@ -882,12 +934,18 @@ class Player {
             }
           }
           break;
-        case 'Nordank':
-          if (Player.Profession === 'Conscript') {
+        case constants.nordankConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Riffel 4e27') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Nordish Rapier') {
               Player.Weapon = json[Player.OriginNation][i];
             }
@@ -897,12 +955,18 @@ class Player {
             }
           }
           break;
-        case 'The Volka':
-          if (Player.Profession === 'Conscript') {
+        case constants.volkaConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Vintovka Naganta') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === '') {
               Player.Weapon = json[Player.OriginNation][i];
             }
@@ -912,12 +976,18 @@ class Player {
             }
           }
           break;
-        case 'Atalia':
-          if (Player.Profession === 'Conscript') {
+        case constants.ataliaConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Berufene Rifle') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === 'Derdarich Halberd') {
               Player.Weapon = json[Player.OriginNation][i];
             }
@@ -927,12 +997,18 @@ class Player {
             }
           }
           break;
-        case 'Escagon':
-          if (Player.Profession === 'Conscript') {
+        case constants.esgaconConstant.toLowerCase():
+          if (
+            Player.Profession.toLowerCase() ===
+            constants.conscriptConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === '') {
               Player.Weapon = json[Player.OriginNation][i];
             }
-          } else if (Player.Profession === 'Vagrant') {
+          } else if (
+            Player.Profession.toLowerCase() ===
+            constants.vagrantConstant.toLowerCase()
+          ) {
             if (json[Player.OriginNation][i].Name === '') {
               Player.Weapon = json[Player.OriginNation][i];
             }
