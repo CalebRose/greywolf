@@ -27,7 +27,7 @@ exports.run = async (client, msg, args, db, fs) => {
         // Fill out scenarios for completing the registration process
       }
     } else {
-      let player = new Player(msg.author.username);
+      let player = new Player(msg.author.id, msg.author.username);
       // Set new player in DB
       //   db.collection('Players').doc(msg.author.username).set(player);
       const illegalNames = [
@@ -49,6 +49,24 @@ exports.run = async (client, msg, args, db, fs) => {
         'Toucan Soda',
         'ToucanSoda',
         'Tuscan',
+        'bitch',
+        'pussy',
+        'twat',
+        'bastard',
+        '',
+        'Konrad',
+        'gib',
+        'info',
+        'missions',
+        'reload',
+        'station',
+        'time',
+        'travel',
+        'use',
+        'faq',
+        'fuq',
+        'fuckboy',
+        'fuqboi',
       ];
 
       const nameFilter = (m, words) => {
@@ -380,7 +398,7 @@ exports.run = async (client, msg, args, db, fs) => {
       player.Age = answer2arr[1];
 
       await msg.reply(
-        `Thank you. Now, please select your nation:\n\n**1: The Gol Republic**- The First Republic off the Western Coast of Reges.\n**2: The Walderlund**- An economic powerhouse made up of smaller states.\n**3: Bregan**- A kingdom under rule by three kings in Northwest Reges.\n**4: Friedlerin**: A small, independent Waldish State within the Valley of the Mons.\n**5: Halvania**: A monarchy East of the Mons, led by one of the last Monarchs.\n**6: Rubinia**- A republic on the verge of bankruptcy within Northern Reges.\n**7: Nordank**- A Northern Kingdom on the verge of civil war.\n**8: The Volka**- An Empire on the far eastern edge of Continental Reges.\n**9: Atalia** A quiet republic within Southern Reges.\n**10: Escagon** The Traders' Paradise and the Gateway to Southern Reges.`
+        `Thank you. Now, please select your nation:\n\n**1: The Gol Republic**- The First Republic off the Western Coast of Reges.\n**2: The Walderlund**- An economic powerhouse made up of smaller states.\n**3: Bregan**- A series of isles under rule by three kings in Northwest Reges.\n**4: Friedlerin**: A small, independent Waldish State within the Valley of the Mons.\n**5: Halvania**: A monarchy East of the Mons, led by one of the last Monarchs.\n**6: Rubinia**- A ruthless nation under reign by power-hungry dukes in a deceptive court.\n**7: Nordank**- A Northern Kingdom on the verge of civil unrest.\n**8: The Volka**- A stalwart empire on the far eastern edge of Continental Reges.\n**9: Republiq' Atalia** A quiet republic within Southern Reges.\n**10: Escagon** The Traders' Paradise and the Gateway to Southern Reges.`
       );
 
       const answer3 = await msg.channel.awaitMessages(nationFilter, {
@@ -432,7 +450,20 @@ exports.run = async (client, msg, args, db, fs) => {
       const skills = finalAnswer.first().content.split(' ');
       for (let i = 0; i < skills.length; i++) {
         let s = findSkill(skills[i]);
-        player = player.incrementSkill(s);
+        let points = 5;
+        let skillLevel = player.findSkillLevel(s);
+        switch (skillLevel) {
+          case 1:
+            points = 5;
+            break;
+          case 2:
+            points = 12;
+            break;
+          case 3:
+            points = 21;
+            break;
+        }
+        player = player.incrementSkillPoints(s, points);
       }
 
       //
@@ -443,8 +474,10 @@ exports.run = async (client, msg, args, db, fs) => {
       player.Registration.isComplete = true;
       player.Locale.CurrentNation = 'The Walderlund';
       player.Locale.CurrentLocale = 'Derdach';
+      player.calculateHealth();
 
-      // Give player a weapon
+      // Give Money
+      player.receiveMoney('marks', 50);
 
       // Post to DB
       // console.log(player);

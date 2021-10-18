@@ -47,7 +47,7 @@ exports.run = async (client, msg, args, db) => {
         },
       });
     } else {
-      if (args[0].toLowerCase() === 'skills' || args[0].toLowerCase === 's') {
+      if (args[0].toLowerCase() === 'skills' || args[0].toLowerCase() === 's') {
         const skills = data.Proficiencies;
         msg.channel.send({
           embed: {

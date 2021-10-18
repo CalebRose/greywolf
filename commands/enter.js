@@ -4,13 +4,9 @@ const Location = require('../Models/location');
 const Landmark = require('../Models/landmark');
 const World = require('../Models/world');
 const utility = require('../Data/utility');
+const constants = require('../Data/constants');
 
-const {
-  ExchangeOption,
-  SkillCheckOption,
-  MultipleDialogue,
-  Options,
-} = require('../Models/options');
+const { SkillCheckOption } = require('../Models/options');
 
 exports.run = async (client, msg, args, db, fs) => {
   // JSON Data
@@ -37,7 +33,7 @@ exports.run = async (client, msg, args, db, fs) => {
     let docRef = db.collection('Players').doc(msg.author.id);
     let getDoc = await docRef.get();
     const data = getDoc.data();
-    let player = new Player(msg.author.username, data);
+    let player = new Player(msg.author.id, msg.author.username, data);
     // World Data
     let nation = player.Locale.CurrentNation;
     let loc = player.Locale.CurrentLocale;
@@ -183,7 +179,10 @@ exports.run = async (client, msg, args, db, fs) => {
           let index = prompt.first().content;
           pastOptions = options;
           options = options.Options[index - 1];
-          if (options.OptionType === 'Training') {
+          if (
+            options.OptionType.toLowerCase() ===
+            constants.trainingConstant.toLowerCase()
+          ) {
             // Provide Dialogue
             msg.channel.send(
               options.Dialogue + options.Proficiency + utility.ConfirmText
@@ -261,14 +260,20 @@ exports.run = async (client, msg, args, db, fs) => {
               }
             }
             //
-          } else if (options.OptionType === 'SkillCheck') {
+          } else if (
+            options.OptionType.toLowerCase() ===
+            constants.skillCheckConstant.toLowerCase()
+          ) {
             options = new SkillCheckOption(options);
             // Roll for SkillCheck
             // check outcome
             // Provide dialogue based on outcome
             // If exit, break loop
             // Otherwise, provide more prompts
-          } else if (options.OptionType === 'Dialogue') {
+          } else if (
+            options.OptionType.toLowerCase() ===
+            constants.dialogueConstant.toLowerCase()
+          ) {
             // Continue providing dialogue. It's worldbuilding.
             if (options.FurtherDialogue) {
               fields = populateOptions(options.EmbedName, options.Options);
@@ -293,7 +298,10 @@ exports.run = async (client, msg, args, db, fs) => {
               embed.embed.fields = fields;
             }
             //
-          } else if (options.OptionType === 'Statement') {
+          } else if (
+            options.OptionType.toLowerCase() ===
+            constants.statementConstant.toLowerCase()
+          ) {
             // Continue providing dialogue, but with no further possible options
             let len = options.DialogueOptions.length;
             let idx =
@@ -309,7 +317,10 @@ exports.run = async (client, msg, args, db, fs) => {
             // Reset Options to pastOptions
             options = pastOptions;
             //
-          } else if (options.OptionType === 'Purchase') {
+          } else if (
+            options.OptionType.toLowerCase() ===
+            constants.purchaseConstant.toLowerCase()
+          ) {
             // Provide Dialogue
             msg.channel.send(
               options.Dialogue + options.Item + utility.ConfirmText
@@ -323,15 +334,21 @@ exports.run = async (client, msg, args, db, fs) => {
             if (confirmed) {
               // Get item
               var item = itemData[options.Region][options.Item];
+
               let canPurchase = player.checkForPurchase(
                 locationInfo.Currency,
                 options.Cost
               );
-              // Check inventory space
-              let hasSpace = player.checkInventorySpace();
+
+              // Check inventory space based on item type
+              let hasSpace =
+                item.ItemType.toLowerCase() === constants.weaponConstant
+                  ? player.checkHolster()
+                  : player.checkInventorySpace();
 
               //
               if (canPurchase && hasSpace) {
+                // Pay for the Item
                 player.payForItem(locationInfo.Currency, options.Cost);
                 // Add item to inventory
                 item.Id = Math.floor(Math.random() * 999999);
@@ -366,85 +383,98 @@ exports.run = async (client, msg, args, db, fs) => {
               }
             }
             //
-          } else if (options.OptionType === 'Sell') {
+          } else if (
+            options.OptionType.toLowerCase() ===
+            constants.sellConstant.toLowerCase()
+          ) {
             // Provide Dialogue
-
-            let sellableItems =
-              options.ItemTypeToSell === 'All'
-                ? player.Inventory.filter((x) => x.ItemType !== 'Key')
-                : player.Inventory.filter(
-                    (x) => x.ItemType === options.ItemTypeToSell
-                  );
-            let itemMessage = '';
-            sellableItems.push({
-              Key: sellableItems.length + 1,
-              Value: 'Decide against selling items.',
-              OptionType: 'Dialogue',
-              Availability: ['All'],
-              Dialogue:
-                'You decided against purchasing items. What else would you like to do?',
-              return: true,
-            });
-            sellableItems.map((x, i) => {
-              itemMessage += `${i + 1}: ${x.Name ? x.Name : x.Value}${
-                x.SellValue ? ' - ' + x.SellValue : ''
-              }\n`;
-            });
-            msg.channel.send(options.Dialogue + '\n\n' + itemMessage);
-            // Provide player inventory. Select Item
-            const itemPrompt = await msg.channel.awaitMessages(
-              (m) => promptFilter(m, sellableItems),
-              {
-                time: 60000,
-                max: 1,
-              }
-            );
-
-            let itemIndex = itemPrompt.first().content;
-            let sellingItem = sellableItems[itemIndex - 1];
-            if (sellingItem.return === true) {
-              // Replayed code from Dialogue.
-              desc = options.Dialogue;
-              embed.embed.title = title;
-              embed.embed.description = desc;
-              options = landmark;
-              fields = populateOptions(name, options.Options);
-              prevOptions = [];
-              embed.embed.fields = fields;
-            } else {
-              // Calculate cost
-              msg.channel.send(
-                `Are you sure you want to sell ${sellingItem.Name} for ${sellingItem.SellValue}?\n(Y)es or (N)o`
-              );
-
-              let confirm = await msg.channel.awaitMessages(
-                confirmationFilter,
+            // Check and see if player has items to sell
+            if (player.Inventory.length > 0) {
+              let sellableItems =
+                options.ItemTypeToSell === 'All'
+                  ? player.Inventory.filter((x) => x.ItemType !== 'Key')
+                  : player.Inventory.filter(
+                      (x) => x.ItemType === options.ItemTypeToSell
+                    );
+              let itemMessage = '';
+              sellableItems.push({
+                Key: sellableItems.length + 1,
+                Value: 'Decide against selling items.',
+                OptionType: 'Dialogue',
+                Availability: ['All'],
+                Dialogue:
+                  'You decided against purchasing items. What else would you like to do?',
+                return: true,
+              });
+              sellableItems.map((x, i) => {
+                itemMessage += `${i + 1}: ${x.Name ? x.Name : x.Value}${
+                  x.SellValue ? ' - ' + x.SellValue : ''
+                }\n`;
+              });
+              msg.channel.send(options.Dialogue + '\n\n' + itemMessage);
+              // Provide player inventory. Select Item
+              const itemPrompt = await msg.channel.awaitMessages(
+                (m) => promptFilter(m, sellableItems),
                 {
                   time: 60000,
                   max: 1,
                 }
               );
 
-              let confirmed = isConfirmed(confirm.first().content);
-              if (confirmed) {
-                // Make exchange
-                // Remove Item from Player
-                player.Inventory = player.removeItem(sellingItem);
-                // Give them money
-                player.receiveMoney(location.Currency, sellingItem.SellValue);
-                savePlayerData(player);
-              }
-              // Display Sell Message or Not Sold Message
-              let resultMessage = `${
-                confirmed ? options.SellMessage : options.DeclinedMessage
-              } ${sellingItem.Name}`;
-              msg.channel.send(resultMessage);
+              let itemIndex = itemPrompt.first().content;
+              let sellingItem = sellableItems[itemIndex - 1];
+              if (sellingItem.return === true) {
+                // Replayed code from Dialogue.
+                desc = options.Dialogue;
+                embed.embed.title = title;
+                embed.embed.description = desc;
+                options = landmark;
+                fields = populateOptions(name, options.Options);
+                prevOptions = [];
+                embed.embed.fields = fields;
+              } else {
+                // Calculate cost
+                msg.channel.send(
+                  `Are you sure you want to sell ${sellingItem.Name} for ${sellingItem.SellValue}?\n(Y)es or (N)o`
+                );
 
-              // resort to past options if necessary
-              options = pastOptions;
-              //
+                let confirm = await msg.channel.awaitMessages(
+                  confirmationFilter,
+                  {
+                    time: 60000,
+                    max: 1,
+                  }
+                );
+
+                let confirmed = isConfirmed(confirm.first().content);
+                if (confirmed) {
+                  // Make exchange
+                  // Remove Item from Player
+                  player.Inventory = player.removeItem(sellingItem);
+                  // Give them money
+                  player.receiveMoney(location.Currency, sellingItem.SellValue);
+                  savePlayerData(player);
+                }
+                // Display Sell Message or Not Sold Message
+                let resultMessage = `${
+                  confirmed ? options.SellMessage : options.DeclinedMessage
+                } ${sellingItem.Name}`;
+                msg.channel.send(resultMessage);
+              }
+            } else {
+              // put out error message
+              msg.channel.send(
+                'Excuse me, but it appears that you have nothing to sell!'
+              );
             }
-          } else if (options.OptionType === 'Exit') {
+
+            // resort to past options if necessary
+            options = pastOptions;
+            //
+          } else if (
+            options.OptionType.toLowerCase() ===
+            constants.exitConstant.toLowerCase()
+          ) {
             // Provide Dialogue
             // Update player data based on results
             // Break
